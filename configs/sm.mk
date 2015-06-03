@@ -317,7 +317,8 @@ export LIBRARY_PATH := $(TARGET_ARCH_LIB_PATH):$(LIBRARY_PATH)
         ui_gl_gl_gyp \
         fio \
         libpdfiumcore \
-        libFraunhoferAAC
+        libFraunhoferAAC \
+        libncurses
 
       # Check if there's already something set somewhere.
       ifndef LOCAL_DISABLE_GRAPHITE
@@ -385,29 +386,46 @@ ifeq ($(strip $(ENABLE_STRICT_ALIASING)),true)
     libjavacore \
     libstagefright_avcenc \
     libRSDriver \
+    libminivold \
+    libsdcard \
+    libvold \
+    gatt_testtool \
+    su \
+    libqsap_sdk \
     libc_malloc \
     libRSSupport \
     libstlport \
-    libandroid_runtime \
-    libcrypto \
-    libwnndict \
-    libmedia \
+    libstlport_static \
+    libcrypto_static \
     dnsmasq \
+    libmedia \
     ping \
-    ping6 \
     libaudioflinger \
     libmediaplayerservice \
     libstagefright \
+    libssh \
     libvariablespeed \
+    libsurfaceflinger \
+    libstagefright_amrnbdec \
     librtp_jni \
+    libOmxVenc \
     libwilhelm \
-    libdownmix \
     libldnhncr \
+    libdownmix \
     libqcomvisualizer \
     libvisualizer \
-    libandroidfw \
-    libstlport_static \
-    tcpdump
+    lsof \
+    libcrypto \
+    ping6 \
+    ssh \
+    tcpdump \
+    libfuse \
+    libbusybox \
+    libziparchive-host \
+    mdnsd \
+    libuclibcrpc \
+    busybox \
+    libfdlibm
 
   # Check if there's already something somewhere.
   ifndef LOCAL_DISABLE_STRICT_ALIASING
