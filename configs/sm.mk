@@ -150,6 +150,10 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
         SM_KERNEL_STATUS := $(filter (release) (prerelease) (experimental),$(SM_KERNEL))
         SM_KERNEL_VERSION := $(SM_KERNEL_NAME)-$(SM_KERNEL_DATE)-$(SM_KERNEL_STATUS)
 
+        # Write version info to build.prop
+        PRODUCT_PROPERTY_OVERRIDES += \
+          ro.sm.kernel=$(SM_KERNEL_VERSION)
+
         # Graphite flags for kernel
 
         # Some graphite flags are only available for certain gcc versions
@@ -245,6 +249,10 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
         SM_KERNEL_DATE := $(filter 20140% 20141% 20150% 20151%,$(SM_KERNEL))
         SM_KERNEL_STATUS := $(filter (release) (prerelease) (experimental),$(SM_KERNEL))
         SM_KERNEL_VERSION := $(SM_KERNEL_NAME)-$(SM_KERNEL_DATE)-$(SM_KERNEL_STATUS)
+
+        # Write version info to build.prop
+        PRODUCT_PROPERTY_OVERRIDES += \
+          ro.sm.kernel=$(SM_KERNEL_VERSION)
 
         # Graphite flags for kernel
 
