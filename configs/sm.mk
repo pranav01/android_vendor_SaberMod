@@ -344,6 +344,17 @@ export LIBRARY_PATH := $(TARGET_ARCH_LIB_PATH):$(LIBRARY_PATH)
         libncurses
       endif
 
+      ifneq ($(filter 5.1% 6.0%,$(SM_AND_NAME)),)
+        LOCAL_BASE_DISABLE_GRAPHITE := \
+          libjavacore \
+          libc_bionic \
+          libnetutils \
+          libandroid_runtime \
+          libpdfiumcore \
+          libicui18n \
+          libicuuc
+      endif
+
       # Check if there's already something set somewhere.
       ifndef LOCAL_DISABLE_GRAPHITE
         LOCAL_DISABLE_GRAPHITE := \
