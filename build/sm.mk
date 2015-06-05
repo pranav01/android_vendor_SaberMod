@@ -64,7 +64,7 @@ ifeq ($(HOST_OS),linux)
   endif
 endif
 
-# General flags for gcc 4.9 to allow compilation to complete.
+# General flags for gcc 4.9+ to allow compilation to complete.
 # Many of these are device specific and should be set in device make files.
 # See vendor/sm.  Add more sections below and to vendor/sm/device/sm_device.mk if need be.
 
@@ -79,6 +79,37 @@ ifdef MAYBE_UNINITIALIZED
   endif
 endif
 
+ifneq ($(filter 5.1% 6.0%,$(SM_AND_NAME)),)
+  ifdef WARN_NO_ERROR
+    ifeq (1,$(words $(filter $(WARN_NO_ERROR),$(LOCAL_MODULE))))
+      ifdef LOCAL_CFLAGS
+        LOCAL_CFLAGS += -Wno-error
+      else
+        LOCAL_CFLAGS := -Wno-error
+      endif
+    endif
+  endif
+endif
+
 include $(SM_VENDOR)/build/strict.mk
+
+ifneq ($(filter 5.1% 6.0%,$(SM_AND_NAME)),)
+  ifeq ($(strip $(LOCAL_IS_HOST_MODULE)),true)
+    ifeq (1,$(words $(filter libcutils, $(LOCAL_MODULE))))
+      ifdef LOCAL_CFLAGS
+        LOCAL_CFLAGS += -pthread
+      else
+        LOCAL_CFLAGS := -pthread
+      endif
+      ifeq ($(strip $(HOST_OS)),linux)
+        ifdef LOCAL_LDLIBS
+          LOCAL_LDLIBS += -ldl -lpthread
+        else
+          LOCAL_LDLIBS := -ldl -lpthread
+        endif
+      endif
+    endif
+  endif
+endif
 
 #end SaberMod

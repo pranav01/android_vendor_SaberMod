@@ -337,6 +337,11 @@ export LIBRARY_PATH := $(TARGET_ARCH_LIB_PATH):$(LIBRARY_PATH)
           $(LOCAL_BASE_DISABLE_GRAPHITE)
       endif
     endif
+    # GCC 5/6 variables.
+    ifneq ($(filter 5.1% 6.0%,$(SM_KERNEL_NAME)),)
+      WARN_NO_ERROR := \
+        base_base_gyp
+    endif
   endif
 else
     $(warning ========================================================================)

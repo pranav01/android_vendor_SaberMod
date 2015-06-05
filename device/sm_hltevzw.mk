@@ -27,8 +27,8 @@ ifeq ($(strip $(HOST_OS)),linux)
   # Sabermod configs
   TARGET_ARCH := arm
   TARGET_NDK_VERSION := 4.9
-  TARGET_SM_AND := 4.9
-  TARGET_SM_KERNEL := 4.9
+  TARGET_SM_AND := 5.1
+  TARGET_SM_KERNEL := 6.0
   USE_CLANG_QCOM := true
   HLTEVZW_THREADS := 4
   PRODUCT_THREADS := $(HLTEVZW_THREADS)
