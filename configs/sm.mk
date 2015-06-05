@@ -114,6 +114,9 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
         # Graphite ROM flags
         OPT1 := (graphite)
 
+        # Some graphite flags are only available for certain gcc versions
+ export GRAPHITE_UNROLL_AND_JAM := $(filter 5.1% 6.0%,$(SM_KERNEL_NAME))
+
         # Graphite flags and friends
         BASE_GRAPHITE_FLAGS := \
           -fgraphite \
@@ -123,6 +126,10 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
           -floop-interchange \
           -floop-strip-mine \
           -floop-block
+        ifneq ($(GRAPHITE_UNROLL_AND_JAM),)
+          BASE_GRAPHITE_FLAGS += \
+            -floop-unroll-and-jam
+        endif
 
         # Check if there's already something set somewhere.
         ifndef GRAPHITE_FLAGS
@@ -155,9 +162,6 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
           ro.sm.kernel=$(SM_KERNEL_VERSION)
 
         # Graphite flags for kernel
-
-        # Some graphite flags are only available for certain gcc versions
- export GRAPHITE_UNROLL_AND_JAM := $(filter 5.1.x-sabermod 6.0.x-sabermod,$(SM_KERNEL_NAME))
 
         BASE_GRAPHITE_KERNEL_FLAGS := \
           -fgraphite \
@@ -214,6 +218,9 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
         # Graphite ROM flags
         OPT1 := (graphite)
 
+        # Some graphite flags are only available for certain gcc versions
+ export GRAPHITE_UNROLL_AND_JAM := $(filter 5.1% 6.0%,$(SM_KERNEL_NAME))
+
         # Graphite flags and friends
         BASE_GRAPHITE_FLAGS := \
           -fgraphite \
@@ -223,6 +230,10 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
           -floop-interchange \
           -floop-strip-mine \
           -floop-block
+        ifneq ($(GRAPHITE_UNROLL_AND_JAM),)
+          BASE_GRAPHITE_FLAGS += \
+            -floop-unroll-and-jam
+        endif
 
         # Check if there's already something set somewhere.
         ifndef GRAPHITE_FLAGS
@@ -255,9 +266,6 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
           ro.sm.kernel=$(SM_KERNEL_VERSION)
 
         # Graphite flags for kernel
-
-        # Some graphite flags are only available for certain gcc versions
- export GRAPHITE_UNROLL_AND_JAM := $(filter 5.1.x-sabermod 6.0.x-sabermod,$(SM_KERNEL_NAME))
 
         BASE_GRAPHITE_KERNEL_FLAGS := \
           -fgraphite \
@@ -304,29 +312,31 @@ export LIBRARY_PATH := $(TARGET_ARCH_LIB_PATH):$(LIBRARY_PATH)
       # Add more modules if needed for devices in device/sm_device.mk or by ROM in product/rom_product.mk with
       # LOCAL_DISABLE_GRAPHITE:=
 
-      LOCAL_BASE_DISABLE_GRAPHITE := \
-        libunwind \
-        libFFTEm \
-        libicui18n \
-        libskia \
-        libvpx \
-        libmedia_jni \
-        libstagefright_mp3dec \
-        libart \
-        mdnsd \
-        libwebrtc_spl \
-        third_party_WebKit_Source_core_webcore_svg_gyp \
-        libjni_filtershow_filters \
-        libavformat \
-        libavcodec \
-        skia_skia_library_gyp \
-        libSR_Core \
-        third_party_libvpx_libvpx_gyp \
-        ui_gl_gl_gyp \
-        fio \
-        libpdfiumcore \
+      ifneq ($(filter 4.8% 4.9%,$(SM_AND_NAME)),)
+        LOCAL_BASE_DISABLE_GRAPHITE := \
+          libunwind \
+          libFFTEm \
+          libicui18n \
+          libskia \
+          libvpx \
+          libmedia_jni \
+          libstagefright_mp3dec \
+          libart \
+          mdnsd \
+          libwebrtc_spl \
+          third_party_WebKit_Source_core_webcore_svg_gyp \
+          libjni_filtershow_filters \
+          libavformat \
+          libavcodec \
+          skia_skia_library_gyp \
+          libSR_Core \
+          third_party_libvpx_libvpx_gyp \
+          ui_gl_gl_gyp \
+          fio \
+          libpdfiumcore \
         libFraunhoferAAC \
         libncurses
+      endif
 
       # Check if there's already something set somewhere.
       ifndef LOCAL_DISABLE_GRAPHITE
@@ -607,7 +617,7 @@ else
 endif
 
 # Some flags are only available for certain gcc versions
-export DISABLE_SANITIZE_LEAK := $(filter 4.8.x-sabermod,$(SM_AND))
+export DISABLE_SANITIZE_LEAK := $(filter 4.8%,$(SM_AND))
 
 OPT3 := (extra)
 OPT6 := (memory-sanitizer)
