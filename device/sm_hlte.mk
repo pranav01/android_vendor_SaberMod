@@ -33,6 +33,8 @@ ifeq ($(strip $(HOST_OS)),linux)
   PRODUCT_THREADS := $(HLTE_THREADS)
   ENABLE_STRICT_ALIASING := true
   export ENABLE_PTHREAD := false
+  LOCAL_LTO := true
+  LTO_COMPRESSION_LEVEL := 3
 
 GRAPHITE_KERNEL_FLAGS := \
     -floop-parallelize-all \
