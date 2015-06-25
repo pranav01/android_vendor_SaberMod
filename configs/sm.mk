@@ -63,7 +63,7 @@ ifneq ($(filter arm arm64,$(LOCAL_ARCH)),)
 endif
 
 ifeq ($(strip $(ENABLE_SABERMOD_ARM_MODE)),true)
-  OPT4 := (saber-mode)
+  OPT4 := (gcc-arm)
 endif
 
 ifeq ($(strip $(LOCAL_ARCH)),arm)
@@ -296,6 +296,46 @@ export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUIL
             $(BASE_GRAPHITE_KERNEL_FLAGS) \
             $(GRAPHITE_KERNEL_FLAGS)
         endif
+
+   # Floop Nest Modules flags
+   LOCAL_ENABLE_NEST := \
+          art \
+          libsigchain \
+          libart \
+          libart-compiler \
+          libartd \
+          libartd-compiler \
+          libart-disassembler \
+          libartd-disassembler \
+          core.art-host \
+          core.art \
+          cpplint-art-phony \
+          libnativebridgetest \
+          libarttest \
+          art-run-tests \
+          libart-gtest \
+          libc \
+          libc_bionic \
+          libc_gdtoa \
+          libc_netbsd \
+          libc_freebsd \
+          libc_dns \
+          libc_openbsd \
+          libc_cxa \
+          libc_syscalls \
+          libc_aeabi \
+          libc_common \
+          libc_nomalloc \
+          libc_malloc \
+          libc_stack_protector \
+          libc_tzcode \
+          libstdc++ \
+          linker \
+          libdl \
+          libm \
+          tzdata \
+          bionic-benchmarks
+
         ifeq ($(strip $(ENABLE_STRICT_ALIASING)),true)
 
         # strict-aliasing kernel flags
@@ -475,7 +515,7 @@ ifeq ($(strip $(ENABLE_STRICT_ALIASING)),true)
     LOCAL_DISABLE_STRICT_ALIASING += \
       $(LOCAL_BASE_DISABLE_STRICT_ALIASING)
   endif
-  OPT5 := (strict-aliasing)
+  OPT5 := (strict)
 else
   OPT5 :=
 endif
@@ -517,7 +557,7 @@ ifeq ($(strip $(LOCAL_O3)),true)
   # If -O3 is enabled, force disable on thumb flags.
   # loop optmizations are not really usefull in thumb mode.
   LOCAL_DISABLE_O3_THUMB := true
-  OPT2 := (max)
+  OPT2 := (O3)
 
   # Disable some modules that break with -O3
   # Add more modules if needed for devices in device/sm_device.mk or by ROM in product/rom_product.mk with
@@ -639,8 +679,10 @@ export DISABLE_SANITIZE_LEAK := $(filter 4.8%,$(SM_AND))
 OPT3 := (extra)
 OPT6 := (memory-sanitizer)
 OPT7 := (OpenMP)
+OPT8 := (lto)
+OPT9 := (floop-nest)
 
-GCC_OPTIMIZATION_LEVELS := $(OPT1)$(OPT2)$(OPT3)$(OPT4)$(OPT5)$(OPT6)$(OPT7)
+GCC_OPTIMIZATION_LEVELS := $(OPT1)$(OPT2)$(OPT3)$(OPT4)$(OPT5)$(OPT6)$(OPT7)$(OPT8)$(OPT9)
 ifneq ($(GCC_OPTIMIZATION_LEVELS),)
   PRODUCT_PROPERTY_OVERRIDES += \
     ro.sm.flags=$(GCC_OPTIMIZATION_LEVELS)

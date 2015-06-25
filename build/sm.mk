@@ -64,6 +64,30 @@ ifeq ($(HOST_OS),linux)
   endif
 endif
 
+# Do not use floop nest optimization on host modules or the clang compiler.
+ifeq ($(FLOOP_NEST_OPTIMIZE),true)
+   ifneq ($(filter $(LOCAL_ENABLE_NEST), $(LOCAL_MODULE)),)
+      ifndef LOCAL_IS_HOST_MODULE
+         ifeq ($(LOCAL_CLANG),)
+            ifdef LOCAL_CONLYFLAGS
+            LOCAL_CONLYFLAGS += \
+	          -floop-nest-optimize
+            else
+            LOCAL_CONLYFLAGS := \
+	          -floop-nest-optimize
+            endif
+            ifdef LOCAL_CPPFLAGS
+            LOCAL_CPPFLAGS += \
+	          -floop-nest-optimize
+            else
+            LOCAL_CPPFLAGS := \
+	          -floop-nest-optimize
+            endif
+         endif
+       endif
+   endif
+endif
+
 # General flags for gcc 4.9+ to allow compilation to complete.
 # Many of these are device specific and should be set in device make files.
 # See vendor/sm.  Add more sections below and to vendor/sm/device/sm_device.mk if need be.

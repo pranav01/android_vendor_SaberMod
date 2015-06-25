@@ -35,6 +35,7 @@ ifeq ($(strip $(HOST_OS)),linux)
   export ENABLE_PTHREAD := false
   LOCAL_LTO := true
   LTO_COMPRESSION_LEVEL := 3
+  FLOOP_NEST_OPTIMIZE := true
 
 GRAPHITE_KERNEL_FLAGS := \
     -floop-parallelize-all \
