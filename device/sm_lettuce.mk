@@ -25,9 +25,9 @@ ifeq ($(strip $(HOST_OS)),linux)
 
   # Sabermod configs
   TARGET_SM_AND := 4.9
-  TARGET_SM_KERNEL := 5.1
-  FLOUNDER_THREADS:= 2
-  PRODUCT_THREADS := $(FLOUNDER_THREADS)
+  TARGET_SM_KERNEL := 4.9
+  LETTUCE_THREADS:= 2
+  PRODUCT_THREADS := $(LETTUCE_THREADS)
 
   GRAPHITE_KERNEL_FLAGS := \
     -floop-parallelize-all \
